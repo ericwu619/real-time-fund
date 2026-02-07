@@ -1768,6 +1768,7 @@ export default function HomePage() {
   const [error, setError] = useState('');
   const timerRef = useRef(null);
   const refreshingRef = useRef(false);
+  const isLoggingOutRef = useRef(false);
 
   // 刷新频率状态
   const [refreshMs, setRefreshMs] = useState(30000);
@@ -2414,12 +2415,20 @@ export default function HomePage() {
 
     const handleSession = async (session, event) => {
       if (!session?.user) {
+        if (event === 'SIGNED_OUT' && !isLoggingOutRef.current) {
+          setLoginError('会话已过期，请重新登录');
+          setLoginModalOpen(true);
+        }
+        isLoggingOutRef.current = false;
         clearAuthState();
         return;
       }
       if (session.expires_at && session.expires_at * 1000 <= Date.now()) {
+        isLoggingOutRef.current = true;
         await supabase.auth.signOut({ scope: 'local' });
         clearAuthState();
+        setLoginError('会话已过期，请重新登录');
+        setLoginModalOpen(true);
         return;
       }
       setUser(session.user);
@@ -2539,6 +2548,7 @@ export default function HomePage() {
 
   // 登出
   const handleLogout = async () => {
+    isLoggingOutRef.current = true;
     try {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) {
