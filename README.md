@@ -1,6 +1,6 @@
 # 实时基金估值 (Real-time Fund Valuation)
 
-一个基于 Next.js 开发的纯前端基金估值与重仓股实时追踪工具。采用玻璃拟态设计（Glassmorphism），支持移动端适配，且无需后端服务器即可运行。
+一个基于 Next.js 开发的纯前端基金估值与重仓股实时追踪工具。采用玻璃拟态设计（Glassmorphism），支持移动端适配。
 预览地址：[https://hzm0321.github.io/real-time-fund/](https://hzm0321.github.io/real-time-fund/)
 
 ## ✨ 特性
@@ -56,18 +56,23 @@
    访问 [http://localhost:3000](http://localhost:3000) 查看效果。
 
 ### supabase 配置说明
-1. 邮件数量修改
+1. NEXT_PUBLIC_SUPABASE_URL 和 NEXT_PUBLIC_SUPABASE_ANON_KEY 获取
+
+   NEXT_PUBLIC_SUPABASE_URL：supabase控制台 → Project Settings → General → Project ID  
+   NEXT_PUBLIC_SUPABASE_ANON_KEY： supabase控制台 → Project Settings → API Keys → Publishable key
+
+2. 邮件数量修改
 
     supabase 免费项目自带每小时2条邮件服务。如果觉得额度不够，可以改成自己的邮箱SMTP。修改路径在 supabase控制台 → Authentication → Email → SMTP Settings。  
     之后可在 Rate Limits ，自由修改每小时邮件数量。
 
-2. 修改接收到的邮件为验证码
-在 supabase控制台 → Authentication → Email → Confirm sign up，选择 `{{.token}}`。  
+3. 修改接收到的邮件为验证码  
 
-3. 目前项目用到的 sql 语句，查看项目 supabase.sql 文件。
+    在 supabase控制台 → Authentication → Email → Confirm sign up，选择 `{{.token}}`。  
+
+4. 目前项目用到的 sql 语句，查看项目 supabase.sql 文件。
 
 更多 supabase 相关内容查阅官方文档。
-
 
 ### 构建与部署
 
